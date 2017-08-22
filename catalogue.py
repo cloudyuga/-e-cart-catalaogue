@@ -23,26 +23,6 @@ def catalogue():
     jwt.decode(token, app.config['SECRET_KEY'])
     logger.info("Token authentication successful")
     try:
-       db.product.drop()
-       product = {'_id': 1, 'name': 'nike', 'category': 'shoe', 'price': 11, 'location': '/static/shoe.jpg'}
-       logger.debug("Product: {}".format(product))
-       db.product.insert(product)
-       logger.info("Inserted successfully")
-       product = {'_id': 2, 'name': 'iphone', 'category': 'mobile', 'price': 100, 'location': '/static/mobile.jpg'}
-       db.product.insert(product)
-       logger.info("Inserted Successfully")
-       product = {'_id': 3, 'name': 'titan', 'category': 'watch', 'price': 50, 'location': '/static/watch.jpeg'}
-       db.product.insert(product)   
-       product = {'_id': 4, 'name': 'philips', 'category': 'speaker', 'price': 75, 'location': '/static/speaker.jpeg'}
-       db.product.insert(product)
-       product = {'_id': 5, 'name': 'adidas', 'category': 'tshirt', 'price': 60, 'location': '/static/tshirt.jpeg'}
-       db.product.insert(product)
-       product = {'_id': 6, 'name': 'sony', 'category': 'tv', 'price': 1000, 'location': '/static/tv.jpg'}
-       db.product.insert(product)
-       product = {'_id': 7, 'name': 'seagate', 'category': 'harddisk', 'price': 200, 'location': '/static/harddisk.jpg'}
-       db.product.insert(product)
-       product = {'_id': 8, 'name': 'journal', 'category': 'book', 'price': 30, 'location': '/static/journal.jpg'}
-       db.product.insert(product)  
        products = list(db.product.find())
        logger.info("Fetched products {}".format(products))
        return jsonify({'productDetails': products}), 200
