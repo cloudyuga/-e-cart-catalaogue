@@ -1,15 +1,20 @@
 from flask import Flask, Response, jsonify, request
+from pymongo import MongoClient
+from middleware import setup_metrics
 import os
 import logging
 import json
-from pymongo import MongoClient
 import jwt
+import prometheus_client
 
 logging.basicConfig(level=logging.DEBUG)
 logger = logging.getLogger(__name__)
 
 app = Flask(__name__)
 app.config['SECRET_KEY'] = 'secret'
+setup_metrics(app)
+
+CONTENT_TYPE_LATEST = str('text/plain; version=0.0.4; charset=utf-8')
 
 client = MongoClient('cataloguedb', 27017)
 db = client.productDb
@@ -49,5 +54,9 @@ def price():
       logger.warning("Execution failed")
       response.status = 500
       return response
+   
+@app.route('/metrics')
+def metrics():
+    return Response(prometheus_client.generate_latest(), mimetype=CONTENT_TYPE_LATEST)
 
 app.run(port=5001, debug=True, host='0.0.0.0')
