@@ -31,7 +31,6 @@ def initialize_tracer():
       service_name='catalogue-with-time-delay')
   return config.initialize_tracer()
 
-#flask_tracer = FlaskTracer(initialize_tracer, True, app)
 tracer = FlaskTracer(initialize_tracer)
 
 @app.route('/', methods=['POST'])
