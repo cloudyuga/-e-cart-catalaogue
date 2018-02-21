@@ -1,6 +1,8 @@
 from flask import Flask, Response, jsonify, request
 from pymongo import MongoClient
-from middleware import setup_metrics
+from middleware import setup_metric
+from jaeger_client import Config
+from flask_opentracing import FlaskTracers
 import os
 import logging
 import json
@@ -58,5 +60,15 @@ def price():
 @app.route('/metrics')
 def metrics():
     return Response(prometheus_client.generate_latest(), mimetype=CONTENT_TYPE_LATEST)
+
+def initialize_tracer():
+  config = Config(
+      config={
+          'sampler': {'type': 'const', 'param': 1}
+      },
+      service_name='catalogue')
+  return config.initialize_tracer()
+
+flask_tracer = FlaskTracer(initialize_tracer, True, app)
 
 app.run(port=5001, debug=True, host='0.0.0.0')
