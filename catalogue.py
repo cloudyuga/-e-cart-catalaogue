@@ -2,7 +2,7 @@ from flask import Flask, Response, jsonify, request
 from pymongo import MongoClient
 from middleware import setup_metrics
 from jaeger_client import Config
-from flask_opentracing import FlaskTracers
+from flask_opentracing import FlaskTracer
 import os
 import logging
 import json
