@@ -27,10 +27,9 @@ def initialize_tracer():
       config={
           'sampler': {'type': 'const', 'param': 1}
       },
-      service_name='catalogue-with-time-delay')
+      service_name='catalogue')
   return config.initialize_tracer()
 
-#flask_tracer = FlaskTracer(initialize_tracer, True, app)
 tracer = FlaskTracer(initialize_tracer)
 
 @app.route('/', methods=['POST'])
